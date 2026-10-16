@@ -23,7 +23,7 @@ app = FastAPI(
 from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins= ["https://docxl.onrender.com/"],
+    allow_origins= ["https://doc-xl.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -969,3 +969,4 @@ def download_excel(document_id: str):
         filename=f"DocXL_{document_id}.xlsx",
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
+
