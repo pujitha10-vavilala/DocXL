@@ -4,7 +4,7 @@ import { Activity, ArrowDown, ArrowRight, BarChart3, Check, CheckCircle2, Chevro
 type User = { id?: number; name: string; email: string };
 type TableResult = { page_number: number; table_number: number; row_count: number; column_count: number; source?: string; data: unknown[][] };
 type Extraction = { total_pages: number; tables_found: number; tables: TableResult[]; warnings?: string[]; pages?: {page_number:number;text:string}[] };
-const API = (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:8000';
+const API = 'https://docxl.onrender.com';
 const getSaved = (key:string) => { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } };
 
 export default function App() {
@@ -46,7 +46,7 @@ export default function App() {
   }
   function signOut(){localStorage.removeItem('docxl-access-token');localStorage.removeItem('docxl-user');setToken('');setUser(null);setAuthOpen(false);}
   async function processFile(){
-    if(!file){setStatus('Choose a PDF file first.');return;} if(!user){setAuthOpen(true);setAuthMode('login');return;}
+    if(!file){setStatus('Choose a PDF file first.');return;}
     setBusy(true);setStatus('Uploading your PDF…');setExtraction(null);setExportReady(false);
     try { const fd=new FormData();fd.append('file',file);const up=await api('/api/upload',{method:'POST',body:fd});const uploaded=await up.json();setDocumentId(uploaded.document_id);setStatus(`Uploaded ${uploaded.original_filename} · ${uploaded.page_count} pages. Extracting tables and text…`);
       const ex=await api(`/api/extract/${uploaded.document_id}`,{method:'POST'});const data=await ex.json();setExtraction(data);setPage('History');setStatus(`Extraction complete. ${data.tables_found} table(s) detected across ${data.total_pages} page(s).`);
