@@ -3,8 +3,7 @@ import { Activity, ArrowDown, ArrowRight, BarChart3, Check, CheckCircle2, Clock3
 
 type TableResult = { page_number: number; table_number: number; row_count: number; column_count: number; source?: string; data: unknown[][] };
 type Extraction = { total_pages: number; tables_found: number; tables: TableResult[]; warnings?: string[]; pages?: {page_number:number;text:string}[] };
-const API = (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:8000';
-
+const API = (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'https://docxl.onrender.com';
 export default function App() {
   const [introOpen, setIntroOpen] = useState(() => !sessionStorage.getItem('docxl-intro-seen'));
   const [theme, setTheme] = useState<'dark'|'light'>(() => (localStorage.getItem('docxl-theme') as 'dark'|'light') || 'dark');
